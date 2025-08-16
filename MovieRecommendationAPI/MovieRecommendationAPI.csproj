@@ -25,9 +25,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Movie\" />
-    <Folder Include="Services\Movie\" />
-  </ItemGroup>
-
 </Project>
