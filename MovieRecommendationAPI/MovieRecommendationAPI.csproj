@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Movie\" />
-    <Folder Include="Services\Movie\" />
   </ItemGroup>
 
 </Project>
