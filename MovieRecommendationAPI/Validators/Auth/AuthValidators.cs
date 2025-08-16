@@ -34,10 +34,3 @@ public class CreateUserDtoValidator : AbstractValidator<CreateUserDto>
         RuleFor(x => x.SocialLoginProvider).NotEmpty().WithMessage("SocialLoginProvider is required");
     }
 }
-
-public class UpdateUserDtoValidator : AbstractValidator<UpdateUserDto>
-{
-    public UpdateUserDtoValidator()
-    {
-    }
-}
