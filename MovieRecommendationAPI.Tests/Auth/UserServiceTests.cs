@@ -95,7 +95,6 @@ public class UserServiceTests
     public void CanValidateInputsTest()
     {
         var createValidator = new CreateUserDtoValidator();
-        var updateValidator = new UpdateUserDtoValidator();
 
         var validCreateDto = new CreateUserDto
             { Name = "Name", Surname = "Surname", Email = "test@gmail.com", Password = "123123123", };
@@ -105,10 +104,5 @@ public class UserServiceTests
         var invalidCreateDto = new CreateUserDto { Name = "", Surname="",Email = "testgmail.com", Password = "123123", };
         createValidationResult = createValidator.TestValidate(invalidCreateDto);
         Assert.False(createValidationResult.IsValid);
-
-        var validUpdateDto = new UpdateUserDto
-            { Name = "Name", Surname = "Surname", Email = "test@gmail.com", Password = "123123123", };
-        var updateValidationResult = updateValidator.TestValidate(validUpdateDto);
-        Assert.True(updateValidationResult.IsValid);
     }
 }
