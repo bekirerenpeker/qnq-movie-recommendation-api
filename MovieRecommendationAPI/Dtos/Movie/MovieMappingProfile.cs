@@ -7,8 +7,7 @@ public class MovieMappingProfile : Profile
 {
     public MovieMappingProfile()
     {
-       CreateMap<MovieData, MovieDto>().ReverseMap(); 
-       CreateMap<CategoryData, CategoryDto>().ReverseMap();
-       CreateMap<CreateMovieDto, MovieData>();
+        CreateMap<MovieData, MovieDto>();
+        CreateMap<CategoryData, CategoryDto>();
     }
 }

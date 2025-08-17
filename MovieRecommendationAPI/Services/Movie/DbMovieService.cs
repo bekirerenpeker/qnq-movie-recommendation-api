@@ -40,8 +40,15 @@ public class DbMovieService : IMovieService
             ReleaseYear = createMovieDto.ReleaseYear,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
-            Categories = _mapper.Map<List<CategoryData>>(createMovieDto.Categories),
+            Categories = []
         };
+
+        for (int i = 0; i < createMovieDto.CategoryIds.Count; i++)
+        {
+            var category = await _dbContext.Categories.FindAsync(createMovieDto.CategoryIds[i]);
+            if (category != null) continue;
+            movie.Categories.Add(category);
+        }
 
         _dbContext.Movies.Add(movie);
         await _dbContext.SaveChangesAsync();
@@ -53,16 +60,22 @@ public class DbMovieService : IMovieService
     {
         var movie = await _dbContext.Movies.FindAsync(id);
         if (movie == null) return null;
-        
+
         if (updateMovieDto.Title != null) movie.Title = updateMovieDto.Title;
         if (updateMovieDto.Description != null) movie.Description = updateMovieDto.Description;
         if (updateMovieDto.DurationMins != null) movie.DurationMins = (int)updateMovieDto.DurationMins;
         if (updateMovieDto.ReleaseYear != null) movie.ReleaseYear = updateMovieDto.ReleaseYear;
-        if (updateMovieDto.Categories != null)
+        if (updateMovieDto.CategoryIds != null)
         {
-            movie.Categories = _mapper.Map<List<CategoryData>>(updateMovieDto.Categories);
+            movie.Categories.Clear();
+            for (int i = 0; i < updateMovieDto.CategoryIds.Count; i++)
+            {
+                var category = await _dbContext.Categories.FindAsync(updateMovieDto.CategoryIds[i]);
+                if (category != null) continue;
+                movie.Categories.Add(category);
+            }
         }
-        
+
         await _dbContext.SaveChangesAsync();
         return _mapper.Map<MovieDto>(movie);
     }

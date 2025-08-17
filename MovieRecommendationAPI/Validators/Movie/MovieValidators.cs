@@ -9,7 +9,7 @@ public class CreateMovieDtoValidator : AbstractValidator<CreateMovieDto>
     {
         RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required");
         RuleFor(x => x.DurationMins).NotEmpty().WithMessage("Duration in minutes required");
-        RuleFor(x => x.Categories).NotEmpty().WithMessage("Movie should at least have one category");
+        RuleFor(x => x.CategoryIds).NotEmpty().WithMessage("Movie should at least have one category");
     }
 }
 

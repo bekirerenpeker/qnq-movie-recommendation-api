@@ -35,7 +35,7 @@ public class DbCategoryService
         {
             Id = Guid.NewGuid(),
             Name = createCategoryDto.Name,
-            Movies = _mapper.Map<List<MovieData>>(createCategoryDto.Movies),
+            Movies = []
         };
         
         _dbContext.Categories.Add(category);
@@ -50,10 +50,6 @@ public class DbCategoryService
         if (category == null) return null;
         
         if (updateCategoryDto.Name != null) category.Name = updateCategoryDto.Name;
-        if (updateCategoryDto.Movies != null)
-        {
-            category.Movies =_mapper.Map<List<MovieData>>(updateCategoryDto.Movies);
-        }
         
         await _dbContext.SaveChangesAsync();
         return _mapper.Map<CategoryDto>(category);

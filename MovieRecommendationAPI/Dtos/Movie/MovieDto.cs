@@ -8,17 +8,17 @@ public class MovieDto
     public int DurationMins { get; set; } = 0;
     public int? ReleaseYear { get; set; } = null;
 
-    public List<CategoryDto> Categories { get; set; } = [];
+    public List<Guid> CategoryIds { get; set; } = [];
 }
 
 public class CreateMovieDto
 {
     public string Title { get; set; } = "";
-    public string? Description { get; set; } = "";
+    public string? Description { get; set; } = null;
     public int DurationMins { get; set; } = 0;
-    public int? ReleaseYear { get; set; } = 0;
+    public int? ReleaseYear { get; set; } = null;
 
-    public List<CategoryDto> Categories { get; set; } = [];
+    public List<Guid> CategoryIds { get; set; } = [];
 }
 
 public class UpdateMovieDto
@@ -28,5 +28,5 @@ public class UpdateMovieDto
     public int? DurationMins { get; set; } = null;
     public int? ReleaseYear { get; set; } = null;
 
-    public List<CategoryDto>? Categories { get; set; } = null;
+    public List<Guid>? CategoryIds { get; set; } = null;
 }
