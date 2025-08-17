@@ -6,7 +6,7 @@ using MovieRecommendation.Dtos.Movie;
 
 namespace MovieRecommendation.Services.Movie;
 
-public class DbCategoryService
+public class DbCategoryService : ICategoryService
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;

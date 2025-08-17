@@ -1,16 +1,15 @@
 using System.Text;
 using FluentValidation;
 using MovieRecommendation.Data;
-using MovieRecommendation.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieRecommendation.Services.Auth;
+using MovieRecommendation.Services.Movie;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +18,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase"))
 );
 builder.Services.AddScoped<IUserService, DbUserService>();
+builder.Services.AddScoped<IMovieService, DbMovieService>();
+builder.Services.AddScoped<ICategoryService, DbCategoryService>();
 
 // Add FluentValidation
 builder.Services.AddFluentValidationAutoValidation();
