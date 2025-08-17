@@ -46,7 +46,7 @@ public class DbMovieService : IMovieService
         for (int i = 0; i < createMovieDto.CategoryIds.Count; i++)
         {
             var category = await _dbContext.Categories.FindAsync(createMovieDto.CategoryIds[i]);
-            if (category != null) continue;
+            if (category == null) continue;
             movie.Categories.Add(category);
         }
 
@@ -71,7 +71,7 @@ public class DbMovieService : IMovieService
             for (int i = 0; i < updateMovieDto.CategoryIds.Count; i++)
             {
                 var category = await _dbContext.Categories.FindAsync(updateMovieDto.CategoryIds[i]);
-                if (category != null) continue;
+                if (category == null) continue;
                 movie.Categories.Add(category);
             }
         }

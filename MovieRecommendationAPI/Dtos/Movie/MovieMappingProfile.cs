@@ -11,6 +11,6 @@ public class MovieMappingProfile : Profile
             .ForMember(dest => dest.CategoryIds, opt => opt.MapFrom(src => src.Categories.Select(c => c.Id)));
         
         CreateMap<CategoryData, CategoryDto>()
-            .ForMember(dest => dest.MovieIds, opt => opt.MapFrom(src => src.Movies.Select(c => c.Id)));
+            .ForMember(dest => dest.MovieIds, opt => opt.MapFrom(src => src.Movies.Select(m => m.Id)));
     }
 }
