@@ -29,7 +29,7 @@ public class DbMovieService : IMovieService
         return _mapper.Map<MovieDto>(movie);
     }
 
-    public async Task<MovieDto> AddMovieAsync(CreateMovieDto createMovieDto)
+    public async Task<MovieDto> CreateMovieAsync(CreateMovieDto createMovieDto)
     {
         var movie = new MovieData
         {

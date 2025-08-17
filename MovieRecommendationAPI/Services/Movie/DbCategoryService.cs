@@ -29,7 +29,7 @@ public class DbCategoryService : ICategoryService
         return _mapper.Map<CategoryDto>(category);
     }
 
-    public async Task<CategoryDto> AddCategoryAsync(CreateCategoryDto createCategoryDto)
+    public async Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto createCategoryDto)
     {
         var category = new CategoryData
         {

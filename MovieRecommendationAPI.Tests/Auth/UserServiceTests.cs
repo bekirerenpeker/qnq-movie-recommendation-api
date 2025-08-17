@@ -22,7 +22,7 @@ public class UserServiceTests
             Password = "123123123",
         };
 
-        var user = await userService.AddUserAsync(createUserDto);
+        var user = await userService.CreateUserAsync(createUserDto);
         Assert.NotNull(user);
         Assert.Equal(createUserDto.Name, user.Name);
         Assert.Equal(createUserDto.Surname, user.Surname);
@@ -44,7 +44,7 @@ public class UserServiceTests
             Password = "123123123",
         };
 
-        var user = await userService.AddUserAsync(createUserDto);
+        var user = await userService.CreateUserAsync(createUserDto);
         Assert.NotNull(user);
 
         var users = await userService.GetAllUsersAsync();
@@ -73,7 +73,7 @@ public class UserServiceTests
             Password = "123123123",
         };
 
-        var user = await userService.AddUserAsync(createUserDto);
+        var user = await userService.CreateUserAsync(createUserDto);
         Assert.NotNull(user);
 
         var updateUserDto = new UpdateUserDto
