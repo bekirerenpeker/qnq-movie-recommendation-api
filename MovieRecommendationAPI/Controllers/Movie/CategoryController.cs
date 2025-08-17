@@ -26,7 +26,7 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> GetCategoryById(Guid id)
     {
         var categoryDto = await _categoryService.GetCategoryByIdAsync(id);
-        if (categoryDto == null) BadRequest();
+        if (categoryDto == null) NotFound();
         return Ok(categoryDto);
     }
 
@@ -41,7 +41,7 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> UpdateCategory(Guid id, UpdateCategoryDto updateCategoryDto)
     {
         var categoryDto = await _categoryService.UpdateCategoryAsync(id, updateCategoryDto);
-        if (categoryDto == null) BadRequest();
+        if (categoryDto == null) NotFound();
         return Ok(categoryDto);
     }
 

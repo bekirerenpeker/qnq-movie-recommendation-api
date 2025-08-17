@@ -29,7 +29,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login(LoginDto loginDto)
     {
         var userDto = await _userService.LoginAsync(loginDto);
-        if (userDto == null) return Unauthorized();
+        if (userDto == null) return NotFound();
 
         var jwtToken = GenerateJwtToken(userDto);
 
@@ -40,7 +40,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Register(RegisterDto registerDto)
     {
         var userDto = await _userService.RegisterAsync(registerDto);
-        if (userDto == null) return Unauthorized();
+        if (userDto == null) return NotFound();
 
         var jwtToken = GenerateJwtToken(userDto);
 
@@ -61,19 +61,19 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> GoogleCallback()
     {
         var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
-        if (!result.Succeeded) return Unauthorized("Google authentication failed");
+        if (!result.Succeeded) return BadRequest("Google authentication failed");
 
         var claims = result.Principal.Claims.ToList();
         var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
         var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-        if (email == null || name == null) return Unauthorized("Couldn't get profile info from Google");
+        if (email == null || name == null) return BadRequest("Couldn't get profile info from Google");
 
         var userDto = await _userService.LoginOrCreateGoogleUserAsync(new GoogleLoginDto
         {
             Email = email,
             Name = name
         });
-        if (userDto == null) return Unauthorized("Couldn't create user");
+        if (userDto == null) return BadRequest("Couldn't create user");
 
         var jwtToken = GenerateJwtToken(userDto);
         return Ok(new { Token = jwtToken });
