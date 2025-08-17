@@ -17,15 +17,21 @@ public class DbMovieService : IMovieService
         _mapper = mapper;
     }
 
+    private async Task<MovieData?> GetMovieDataByIdAsync(Guid id)
+    {
+        var movie = await _dbContext.Movies.Include(data => data.Categories).FirstOrDefaultAsync(m => m.Id == id);
+        return movie;
+    }
+
     public async Task<List<MovieDto>> GetAllMoviesAsync()
     {
-        var movies = await _dbContext.Movies.ToListAsync();
+        var movies = await _dbContext.Movies.Include(data => data.Categories).ToListAsync();
         return _mapper.Map<List<MovieDto>>(movies);
     }
 
     public async Task<MovieDto?> GetMovieByIdAsync(Guid id)
     {
-        var movie = await _dbContext.Movies.FindAsync(id);
+        var movie = await GetMovieDataByIdAsync(id);
         return _mapper.Map<MovieDto>(movie);
     }
 
@@ -40,15 +46,11 @@ public class DbMovieService : IMovieService
             ReleaseYear = createMovieDto.ReleaseYear,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
-            Categories = []
+            Categories = createMovieDto.CategoryIds
+                .Select(id => _dbContext.Categories.Find(id))
+                .Where(c => c != null)
+                .ToList()!
         };
-
-        for (int i = 0; i < createMovieDto.CategoryIds.Count; i++)
-        {
-            var category = await _dbContext.Categories.FindAsync(createMovieDto.CategoryIds[i]);
-            if (category == null) continue;
-            movie.Categories.Add(category);
-        }
 
         _dbContext.Movies.Add(movie);
         await _dbContext.SaveChangesAsync();
@@ -58,7 +60,7 @@ public class DbMovieService : IMovieService
 
     public async Task<MovieDto?> UpdateMovieAsync(Guid id, UpdateMovieDto updateMovieDto)
     {
-        var movie = await _dbContext.Movies.FindAsync(id);
+        var movie = await GetMovieDataByIdAsync(id);
         if (movie == null) return null;
 
         if (updateMovieDto.Title != null) movie.Title = updateMovieDto.Title;
@@ -68,12 +70,10 @@ public class DbMovieService : IMovieService
         if (updateMovieDto.CategoryIds != null)
         {
             movie.Categories.Clear();
-            for (int i = 0; i < updateMovieDto.CategoryIds.Count; i++)
-            {
-                var category = await _dbContext.Categories.FindAsync(updateMovieDto.CategoryIds[i]);
-                if (category == null) continue;
-                movie.Categories.Add(category);
-            }
+            movie.Categories = updateMovieDto.CategoryIds
+                .Select(id => _dbContext.Categories.Find(id))
+                .Where(c => c != null)
+                .ToList()!;
         }
 
         await _dbContext.SaveChangesAsync();

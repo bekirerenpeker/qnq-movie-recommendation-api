@@ -17,15 +17,21 @@ public class DbCategoryService : ICategoryService
         _mapper = mapper;
     }
 
+    private async Task<CategoryData?> GetCategoryDataByIdAsync(Guid id)
+    {
+        var category = await _dbContext.Categories.Include(data => data.Movies).FirstOrDefaultAsync(c => c.Id == id);
+        return category;
+    }
+
     public async Task<List<CategoryDto>> GetAllCategorysAsync()
     {
-        var categoires = await _dbContext.Categories.ToListAsync();
+        var categoires = await _dbContext.Categories.Include(data => data.Movies).ToListAsync();
         return _mapper.Map<List<CategoryDto>>(categoires);
     }
 
     public async Task<CategoryDto?> GetCategoryByIdAsync(Guid id)
     {
-        var category = await _dbContext.Categories.FindAsync(id);
+        var category = await GetCategoryDataByIdAsync(id);
         return _mapper.Map<CategoryDto>(category);
     }
 
@@ -37,10 +43,10 @@ public class DbCategoryService : ICategoryService
             Name = createCategoryDto.Name,
             Movies = []
         };
-        
+
         _dbContext.Categories.Add(category);
         await _dbContext.SaveChangesAsync();
-        
+
         return _mapper.Map<CategoryDto>(category);
     }
 
@@ -48,9 +54,9 @@ public class DbCategoryService : ICategoryService
     {
         var category = await _dbContext.Categories.FindAsync(id);
         if (category == null) return null;
-        
+
         if (updateCategoryDto.Name != null) category.Name = updateCategoryDto.Name;
-        
+
         await _dbContext.SaveChangesAsync();
         return _mapper.Map<CategoryDto>(category);
     }
