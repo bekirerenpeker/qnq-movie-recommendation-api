@@ -1,5 +1,7 @@
+using FluentValidation.TestHelper;
 using MovieRecommendation.Dtos.Movie;
 using MovieRecommendation.Services.Movie;
+using MovieRecommendation.Validators.Movie;
 
 namespace MovieRecommendation.Tests.Movie;
 
@@ -84,7 +86,7 @@ public class MovieServiceTests
             ReleaseYear = 2025,
             DurationMins = 130,
         };
-        
+
         var updatedMovieDto = await movieService.UpdateMovieAsync(movieDto.Id, updateMovieDto);
         Assert.NotNull(updatedMovieDto);
         Assert.Equal(updateMovieDto.Title, updatedMovieDto.Title);
@@ -110,10 +112,31 @@ public class MovieServiceTests
         };
 
         var movieDto = await movieService.CreateMovieAsync(createMovieDto);
-        
+
         await movieService.DeleteMovieByIdAsync(movieDto.Id);
-        
+
         var allMovieDtos = await movieService.GetAllMoviesAsync();
         Assert.Empty(allMovieDtos);
+    }
+
+    [Fact]
+    public async Task CanValidateInputTest()
+    {
+        var createValidator = new CreateMovieDtoValidator();
+        var validCreate = new CreateMovieDto
+        {
+            Title = "Test Movie",
+            Description = "Test Movie",
+            DurationMins = 100,
+            ReleaseYear = 2021,
+            CategoryIds = [Guid.NewGuid()] // should not add this since it is invalid
+        };
+        var result = createValidator.TestValidate(validCreate);
+        Assert.True(result.IsValid);
+
+        var invalidCreate = new CreateMovieDto { };
+        result = createValidator.TestValidate(invalidCreate);
+        Assert.False(result.IsValid);
+        Assert.Equal(3, result.Errors.Count);
     }
 }
