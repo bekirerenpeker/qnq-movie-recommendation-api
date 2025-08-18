@@ -6,6 +6,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4053ce1a_002D6e05_002D4a76_002Dbe40_002D89ea29434a72/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="RegisterCreatesUserTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::C0B883A2-0179-4CDF-8E84-454FAB0C5A4C::net9.0::MovieRecommendation.Tests.Movie.CategoryServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C0B883A2-0179-4CDF-8E84-454FAB0C5A4C::net9.0::MovieRecommendation.Tests.Movie.MovieServiceTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
