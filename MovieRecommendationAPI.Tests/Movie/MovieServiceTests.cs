@@ -32,6 +32,50 @@ public class MovieServiceTests
     }
 
     [Fact]
+    public async Task CanAddCategoriesToMovieTest()
+    {
+        var dbContext = TestUtils.GetInMemoryDbContext();
+        var mapper = TestUtils.GetMovieMapper();
+        var movieService = new DbMovieService(dbContext, mapper);
+        var categoryService = new DbCategoryService(dbContext, mapper);
+
+        var horrorCategoryDto = await categoryService.CreateCategoryAsync(new CreateCategoryDto { Name = "Horror" });
+        var actionCategoryDto = await categoryService.CreateCategoryAsync(new CreateCategoryDto { Name = "Action" });
+        var comedyCategoryDto = await categoryService.CreateCategoryAsync(new CreateCategoryDto { Name = "Comedy" });
+
+        var createMovieDto = new CreateMovieDto
+        {
+            Title = "Test Movie",
+            Description = "Test Movie",
+            DurationMins = 100,
+            ReleaseYear = 2021,
+            CategoryIds =
+            [
+                horrorCategoryDto.Id,
+                comedyCategoryDto.Id,
+                actionCategoryDto.Id,
+                Guid.NewGuid(), // should ignore this
+            ]
+        };
+
+        var movieDto = await movieService.CreateMovieAsync(createMovieDto);
+        Assert.Equal(3, movieDto.CategoryIds.Count);
+        
+        horrorCategoryDto = await categoryService.GetCategoryByIdAsync(horrorCategoryDto.Id);
+        Assert.NotNull(horrorCategoryDto);
+        Assert.Single(horrorCategoryDto.MovieIds);
+        
+        actionCategoryDto = await categoryService.GetCategoryByIdAsync(actionCategoryDto.Id);
+        Assert.NotNull(actionCategoryDto);
+        Assert.Single(actionCategoryDto.MovieIds);
+        
+        comedyCategoryDto = await categoryService.GetCategoryByIdAsync(comedyCategoryDto.Id);
+        Assert.NotNull(comedyCategoryDto);
+        Assert.Single(comedyCategoryDto.MovieIds);
+        
+    }
+
+    [Fact]
     public async Task CanGetMovieTest()
     {
         var dbContext = TestUtils.GetInMemoryDbContext();
