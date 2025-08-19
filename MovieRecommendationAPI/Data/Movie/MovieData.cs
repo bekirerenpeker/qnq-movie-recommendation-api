@@ -9,6 +9,7 @@ public class MovieData
     public string? Description { get; set; } = null;
     public int DurationMins  { get; set; } = 0;
     public int? ReleaseYear { get; set; } = null;
+    [Range(0, 10)] public float AvarageRating { get; set; } = 0;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow; 
     
