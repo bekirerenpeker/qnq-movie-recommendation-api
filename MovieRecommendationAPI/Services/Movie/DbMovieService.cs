@@ -90,42 +90,42 @@ public class DbMovieService : IMovieService
         }
     }
 
-    public async Task<List<MovieDto>> ListMoviesByCategoryAsync(ListMoviesDto listMoviesDto)
+    public async Task<List<MovieDto>> ListMoviesByCategoryAsync(SelectMoviesDto selectMoviesDto)
     {
         var movies = await _dbContext.Movies.Include(data => data.Categories).ToListAsync();
 
         // filter for category
         movies = movies
-            .Where(m => m.Categories.Select(e => e.Id).Intersect(listMoviesDto.CategoryIds).Any())
+            .Where(m => m.Categories.Select(e => e.Id).Intersect(selectMoviesDto.CategoryIds).Any())
             .ToList();
 
         // sort 
-        switch (listMoviesDto.OrderType)
+        switch (selectMoviesDto.OrderType)
         {
             case MovieOrderType.ByTitle:
                 movies.Sort((a, b) =>
-                    listMoviesDto.OrderDirection == OrderDirection.Ascending
+                    selectMoviesDto.OrderDirection == OrderDirection.Ascending
                         ? String.Compare(a.Title, b.Title, StringComparison.Ordinal)
                         : String.Compare(b.Title, a.Title, StringComparison.Ordinal)
                 );
                 break;
             case MovieOrderType.ByDuration:
                 movies.Sort((a, b) =>
-                    listMoviesDto.OrderDirection == OrderDirection.Ascending
+                    selectMoviesDto.OrderDirection == OrderDirection.Ascending
                         ? a.DurationMins.CompareTo(b.DurationMins)
                         : b.DurationMins.CompareTo(a.DurationMins)
                 );
                 break;
             case MovieOrderType.ByRating:
                 movies.Sort((a, b) =>
-                    listMoviesDto.OrderDirection == OrderDirection.Ascending
+                    selectMoviesDto.OrderDirection == OrderDirection.Ascending
                         ? a.AvarageRating.CompareTo(b.AvarageRating)
                         : b.AvarageRating.CompareTo(a.AvarageRating)
                 );
                 break;
             case MovieOrderType.ByReleaseYear:
                 movies.Sort((a, b) =>
-                    listMoviesDto.OrderDirection == OrderDirection.Ascending
+                    selectMoviesDto.OrderDirection == OrderDirection.Ascending
                         ? (a.ReleaseYear ?? 0).CompareTo(b.ReleaseYear ?? 0)
                         : (b.ReleaseYear ?? 0).CompareTo(a.ReleaseYear ?? 0)
                 );
@@ -133,9 +133,9 @@ public class DbMovieService : IMovieService
         }
 
         // paginate
-        if (listMoviesDto.Count != null)
+        if (selectMoviesDto.Count != null)
         {
-            movies =  movies.Take((int)listMoviesDto.Count).ToList();
+            movies =  movies.Take((int)selectMoviesDto.Count).ToList();
         }
 
         return _mapper.Map<List<MovieDto>>(movies);

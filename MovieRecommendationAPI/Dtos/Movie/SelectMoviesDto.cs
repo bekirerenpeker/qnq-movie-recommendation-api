@@ -14,7 +14,7 @@ public enum MovieOrderType
     ByDuration,
 }
 
-public class ListMoviesDto
+public class SelectMoviesDto
 {
     public List<Guid> CategoryIds { get; set; } = [];
     public OrderDirection OrderDirection { get; set; } = OrderDirection.Ascending;

@@ -51,9 +51,9 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet("select")]
-    public async Task<IActionResult> GetMovieByTitle(ListMoviesDto listMoviesDto)
+    public async Task<IActionResult> GetMoviesByCategory([FromQuery] SelectMoviesDto selectMoviesDto)
     {
-        var selectedMovies = await _movieService.ListMoviesByCategoryAsync(listMoviesDto);
+        var selectedMovies = await _movieService.ListMoviesByCategoryAsync(selectMoviesDto);
         return Ok(selectedMovies);
     }
 

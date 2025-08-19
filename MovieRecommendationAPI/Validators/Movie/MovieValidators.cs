@@ -21,7 +21,7 @@ public class CreateCategoryDtoValidator : AbstractValidator<CreateCategoryDto>
     }
 }
 
-public class ListMoviesDtoValidator : AbstractValidator<ListMoviesDto>
+public class ListMoviesDtoValidator : AbstractValidator<SelectMoviesDto>
 {
     public ListMoviesDtoValidator()
     {
