@@ -30,7 +30,7 @@ public class DbUserService : IUserService
     public async Task<UserDto?> RegisterAsync(RegisterDto registerDto)
     {
         var createUserDto = _mapper.Map<CreateUserDto>(registerDto);
-        var userDto = await AddUserAsync(createUserDto);
+        var userDto = await CreateUserAsync(createUserDto);
         return userDto;
     }
 
@@ -43,7 +43,7 @@ public class DbUserService : IUserService
 
         if (user == null)
         {
-            await AddUserAsync(new CreateUserDto
+            await CreateUserAsync(new CreateUserDto
                 {
                     Name = loginDto.Name,
                     Surname = loginDto.Surname,
@@ -72,7 +72,7 @@ public class DbUserService : IUserService
         return _mapper.Map<UserDto>(user);
     }
 
-    public async Task<UserDto> AddUserAsync(CreateUserDto createUserDto)
+    public async Task<UserDto> CreateUserAsync(CreateUserDto createUserDto)
     {
         var user = _mapper.Map<UserData>(createUserDto);
         user.Id = Guid.NewGuid();

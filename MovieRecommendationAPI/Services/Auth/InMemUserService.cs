@@ -45,7 +45,7 @@ public class InMemUserService : IUserService
         return Task.FromResult(user);
     }
 
-    public Task<UserData> AddUserAsync(UserData user)
+    public Task<UserData> CreateUserAsync(UserData user)
     {
         _users.Add(user);
         return Task.FromResult(user);

@@ -57,10 +57,10 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddUser(CreateUserDto createUserDto)
+    public async Task<IActionResult> CreateUser(CreateUserDto createUserDto)
     {
         if (!(await IsAdmin())) return Unauthorized();
-        var userDto = await _userService.AddUserAsync(createUserDto);
+        var userDto = await _userService.CreateUserAsync(createUserDto);
         return Ok(userDto);
     }
 
