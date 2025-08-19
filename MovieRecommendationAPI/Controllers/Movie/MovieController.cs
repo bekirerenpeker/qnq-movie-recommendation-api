@@ -50,6 +50,13 @@ public class MovieController : ControllerBase
         return Ok(movieDto);
     }
 
+    [HttpGet("select")]
+    public async Task<IActionResult> GetMovieByTitle(ListMoviesDto listMoviesDto)
+    {
+        var selectedMovies = await _movieService.ListMoviesByCategoryAsync(listMoviesDto);
+        return Ok(selectedMovies);
+    }
+
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateMovie(CreateMovieDto createMovieDto)

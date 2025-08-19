@@ -9,4 +9,5 @@ public interface IMovieService
     Task<MovieDto> CreateMovieAsync(CreateMovieDto createMovieDto);
     Task<MovieDto?> UpdateMovieAsync(Guid id, UpdateMovieDto updateMovieDto);
     Task DeleteMovieByIdAsync(Guid id);
+    Task<List<MovieDto>> ListMoviesByCategoryAsync(ListMoviesDto listMoviesDto);
 }
