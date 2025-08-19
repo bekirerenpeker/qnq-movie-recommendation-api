@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MovieRecommendation.Data.Movie;
 
 public class MovieData
