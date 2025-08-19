@@ -53,7 +53,7 @@ public class MovieController : ControllerBase
     [HttpGet("select")]
     public async Task<IActionResult> GetMoviesByCategory([FromQuery] SelectMoviesDto selectMoviesDto)
     {
-        var selectedMovies = await _movieService.ListMoviesByCategoryAsync(selectMoviesDto);
+        var selectedMovies = await _movieService.SelectMoviesByCategoryAsync(selectMoviesDto);
         return Ok(selectedMovies);
     }
 

@@ -21,9 +21,9 @@ public class CreateCategoryDtoValidator : AbstractValidator<CreateCategoryDto>
     }
 }
 
-public class ListMoviesDtoValidator : AbstractValidator<SelectMoviesDto>
+public class SelectMoviesDtoValidator : AbstractValidator<SelectMoviesDto>
 {
-    public ListMoviesDtoValidator()
+    public SelectMoviesDtoValidator()
     {
         RuleFor(x => x.CategoryIds).NotEmpty().WithMessage("At least one category is required");
     }

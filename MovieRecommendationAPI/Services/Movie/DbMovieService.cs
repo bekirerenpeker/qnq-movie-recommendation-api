@@ -90,7 +90,7 @@ public class DbMovieService : IMovieService
         }
     }
 
-    public async Task<List<MovieDto>> ListMoviesByCategoryAsync(SelectMoviesDto selectMoviesDto)
+    public async Task<List<MovieDto>> SelectMoviesByCategoryAsync(SelectMoviesDto selectMoviesDto)
     {
         var movies = await _dbContext.Movies.Include(data => data.Categories).ToListAsync();
 
