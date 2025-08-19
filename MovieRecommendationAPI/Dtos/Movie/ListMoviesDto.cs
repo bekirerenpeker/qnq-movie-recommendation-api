@@ -8,7 +8,7 @@ public enum OrderDirection
 
 public enum MovieOrderType
 {
-    ByName,
+    ByTitle,
     ByRating,
     ByReleaseYear,
     ByDuration,
@@ -18,5 +18,6 @@ public class ListMoviesDto
 {
     public List<Guid> CategoryIds { get; set; } = [];
     public OrderDirection OrderDirection { get; set; } = OrderDirection.Ascending;
-    public MovieOrderType OrderType { get; set; } = MovieOrderType.ByName;
+    public MovieOrderType OrderType { get; set; } = MovieOrderType.ByTitle;
+    public int? Count { get; set; } = null;
 }
