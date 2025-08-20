@@ -56,7 +56,7 @@ public class SelectMoviesTests
             CategoryIds = [comedyCat.Id],
             OrderType = MovieOrderType.ByDuration,
             OrderDirection = OrderDirection.Ascending,
-            Count = 1,
+            Paginate = new Paginate {Count = 1, Page = 0}
         });
         Assert.Equal(1, comedyMovies.Count);
         Assert.Equal(comedyMovies[0].Id, comedyMovie.Id);

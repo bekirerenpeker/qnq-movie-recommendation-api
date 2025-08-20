@@ -54,7 +54,11 @@ public class MovieController : ControllerBase
     public async Task<IActionResult> GetMoviesByCategory([FromQuery] SelectMoviesDto selectMoviesDto)
     {
         var selectedMovies = await _movieService.SelectMoviesByCategoryAsync(selectMoviesDto);
-        return Ok(selectedMovies);
+        return Ok(new PaginatedMoviesDto
+        {
+            Movies = selectedMovies,
+            Paginate = selectMoviesDto.Paginate
+        });
     }
 
     [Authorize]

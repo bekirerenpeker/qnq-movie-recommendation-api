@@ -27,3 +27,9 @@ public class SelectMoviesDto
     public MovieOrderType OrderType { get; set; } = MovieOrderType.ByTitle;
     public Paginate? Paginate { get; set; } = null;
 }
+
+public class PaginatedMoviesDto
+{
+    public List<MovieDto> Movies { get; set; } = [];
+    public Paginate? Paginate { get; set; } = null;
+}
