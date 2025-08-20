@@ -101,7 +101,7 @@ public class DbMovieService : IMovieService
 
         // sort and paginate
         SortSelectedMovies(movies, selectMoviesDto.OrderType, selectMoviesDto.OrderDirection);
-        if (selectMoviesDto.Paginate != null) Paginate(movies, selectMoviesDto.Paginate);
+        if (selectMoviesDto.Paginate != null) movies = Paginate(movies, selectMoviesDto.Paginate);
 
         return _mapper.Map<List<MovieDto>>(movies);
     }
