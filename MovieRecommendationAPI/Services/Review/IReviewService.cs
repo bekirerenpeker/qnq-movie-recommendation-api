@@ -10,5 +10,5 @@ public interface IReviewService
     Task<List<ReviewDto>> GetMovieReviewsAsync(Guid movieId);
     Task<List<ReviewDto>> GetUserReviewsAsync(Guid userId);
     
-    Task<ReviewDto> CreateReviewAsync(CreateReviewDto createReviewDto);
+    Task<ReviewDto?> CreateReviewAsync(CreateReviewDto createReviewDto);
 }
