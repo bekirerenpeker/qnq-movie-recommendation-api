@@ -20,3 +20,11 @@ public class CreateCategoryDtoValidator : AbstractValidator<CreateCategoryDto>
         RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required");
     }
 }
+
+public class SelectMoviesDtoValidator : AbstractValidator<SelectMoviesDto>
+{
+    public SelectMoviesDtoValidator()
+    {
+        RuleFor(x => x.CategoryIds).NotEmpty().WithMessage("At least one category is required");
+    }
+}
