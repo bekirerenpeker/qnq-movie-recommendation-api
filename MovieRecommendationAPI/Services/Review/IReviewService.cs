@@ -5,10 +5,10 @@ namespace MovieRecommendation.Services.Review;
 
 public interface IReviewService
 {
-    Task<ReviewDto?> GetReview(Guid id);
-    Task<ReviewDto?> GetReview(Guid userId, Guid movieId);
-    Task<List<ReviewDto>> GetMovieReviews(Guid movieId);
-    Task<List<ReviewDto>> GetUserReviews(Guid userId);
+    Task<ReviewDto?> GetReviewByIdAsync(Guid id);
+    Task<ReviewDto?> GetReviewByUserAndMovieIdAsync(Guid userId, Guid movieId);
+    Task<List<ReviewDto>> GetMovieReviewsAsync(Guid movieId);
+    Task<List<ReviewDto>> GetUserReviewsAsync(Guid userId);
     
-    Task<ReviewDto> CreateReview(CreateReviewDto createReviewDto);
+    Task<ReviewDto> CreateReviewAsync(CreateReviewDto createReviewDto);
 }
