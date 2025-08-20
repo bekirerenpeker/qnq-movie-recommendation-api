@@ -17,31 +17,31 @@ public class DbReviewService
         _mapper = mapper;
     }
 
-    public async Task<ReviewDto?> GetReview(Guid id)
+    public async Task<ReviewDto?> GetReviewByIdAsync(Guid id)
     {
         var review = await _dbContext.Reviews.FindAsync(id);
         return _mapper.Map<ReviewDto>(review);
     }
 
-    public async Task<ReviewDto?> GetReview(Guid userId, Guid movieId)
+    public async Task<ReviewDto?> GetReviewByUserAndMovieIdAsync(Guid userId, Guid movieId)
     {
         var review = await _dbContext.Reviews.FirstOrDefaultAsync(r => r.UserId == userId && r.MovieId == movieId);
         return _mapper.Map<ReviewDto>(review);
     }
 
-    public async Task<List<ReviewDto>> GetMovieReviews(Guid movieId)
+    public async Task<List<ReviewDto>> GetMovieReviewsAsync(Guid movieId)
     {
         var reviews = await _dbContext.Reviews.Where(r => r.MovieId == movieId).ToListAsync();
         return _mapper.Map<List<ReviewDto>>(reviews);
     }
 
-    public async Task<List<ReviewDto>> GetUserReviews(Guid userId)
+    public async Task<List<ReviewDto>> GetUserReviewsAsync(Guid userId)
     {
         var reviews = await _dbContext.Reviews.Where(r => r.UserId == userId).ToListAsync();
         return _mapper.Map<List<ReviewDto>>(reviews);
     }
 
-    public async Task<ReviewDto?> CreateReview(CreateReviewDto createReviewDto)
+    public async Task<ReviewDto?> CreateReviewAsync(CreateReviewDto createReviewDto)
     {
         var movieExists = await _dbContext.Movies.AnyAsync(m => m.Id == createReviewDto.MovieId);
         var userExists = await _dbContext.Users.AnyAsync(u => u.Id == createReviewDto.UserId);
