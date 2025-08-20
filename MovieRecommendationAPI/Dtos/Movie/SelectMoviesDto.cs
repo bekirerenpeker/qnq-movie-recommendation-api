@@ -14,10 +14,16 @@ public enum MovieOrderType
     ByDuration,
 }
 
+public class Paginate
+{
+    public int Count { get; set; } = 10;
+    public int Page { get; set; } = 0;
+}
+
 public class SelectMoviesDto
 {
     public List<Guid> CategoryIds { get; set; } = [];
     public OrderDirection OrderDirection { get; set; } = OrderDirection.Ascending;
     public MovieOrderType OrderType { get; set; } = MovieOrderType.ByTitle;
-    public int? Count { get; set; } = null;
+    public Paginate? Paginate { get; set; } = null;
 }
