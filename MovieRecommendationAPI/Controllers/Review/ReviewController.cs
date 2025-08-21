@@ -58,9 +58,10 @@ public class ReviewController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateReviewAsync(CreateReviewDto createReviewDto)
     {
-        if (GetCurrentUserId() != createReviewDto.UserId) return Unauthorized();
-        var reviewDto = await _reviewService.CreateReviewAsync(createReviewDto);
-        if (reviewDto == null) return NotFound();
+        var userId = GetCurrentUserId();
+        if (userId == null) return Unauthorized();
+        var reviewDto = await _reviewService.CreateReviewAsync((Guid)userId, createReviewDto);
+        if (reviewDto == null) return BadRequest();
         return Ok(reviewDto);
     }
     

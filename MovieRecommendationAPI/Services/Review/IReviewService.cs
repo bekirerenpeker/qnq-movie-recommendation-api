@@ -11,5 +11,5 @@ public interface IReviewService
     Task<List<ReviewDto>> GetUserReviewsAsync(Guid userId);
     Task DeleteReviewByIdAsync(Guid id);
     
-    Task<ReviewDto?> CreateReviewAsync(CreateReviewDto createReviewDto);
+    Task<ReviewDto?> CreateReviewAsync(Guid userId, CreateReviewDto createReviewDto);
 }

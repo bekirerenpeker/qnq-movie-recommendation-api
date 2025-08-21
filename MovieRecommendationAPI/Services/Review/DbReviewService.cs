@@ -41,14 +41,14 @@ public class DbReviewService
         return _mapper.Map<List<ReviewDto>>(reviews);
     }
 
-    public async Task<ReviewDto?> CreateReviewAsync(CreateReviewDto createReviewDto)
+    public async Task<ReviewDto?> CreateReviewAsync(Guid userId, CreateReviewDto createReviewDto)
     {
         var movieExists = await _dbContext.Movies.AnyAsync(m => m.Id == createReviewDto.MovieId);
-        var userExists = await _dbContext.Users.AnyAsync(u => u.Id == createReviewDto.UserId);
+        var userExists = await _dbContext.Users.AnyAsync(u => u.Id == userId);
         if (!movieExists || !userExists) return null;
 
         var review = await _dbContext.Reviews.FirstOrDefaultAsync(r =>
-            r.MovieId == createReviewDto.MovieId && r.UserId == createReviewDto.UserId
+            r.MovieId == createReviewDto.MovieId && r.UserId == userId
         );
 
         if (review == null)
@@ -58,7 +58,7 @@ public class DbReviewService
                 Id = Guid.NewGuid(),
                 Rating = createReviewDto.Rating,
                 Comment = createReviewDto.Comment,
-                UserId = createReviewDto.UserId,
+                UserId = userId,
                 MovieId = createReviewDto.MovieId,
             };
 
