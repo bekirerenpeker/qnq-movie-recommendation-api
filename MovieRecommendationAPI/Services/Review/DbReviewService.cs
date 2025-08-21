@@ -73,4 +73,14 @@ public class DbReviewService
         await _dbContext.SaveChangesAsync();
         return _mapper.Map<ReviewDto>(review);
     }
+    
+    public async Task DeleteReviewByIdAsync(Guid id)
+    {
+        var review = await _dbContext.Movies.FindAsync(id);
+        if (review != null)
+        {
+            _dbContext.Movies.Remove(review);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
 }

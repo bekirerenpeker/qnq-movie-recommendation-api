@@ -65,4 +65,16 @@ public class ReviewController : ControllerBase
         if (reviewDto == null) return NotFound();
         return Ok(reviewDto);
     }
+    
+    [Authorize]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> CreateReviewAsync(Guid id)
+    {
+        var reviewDto = await _reviewService.GetReviewByIdAsync(id);
+        if (reviewDto == null) return NotFound();
+        if (GetCurrentUserId() != reviewDto.UserId) return Unauthorized();
+
+        await _reviewService.DeleteReviewByIdAsync(id);
+        return NoContent();
+    }
 }
