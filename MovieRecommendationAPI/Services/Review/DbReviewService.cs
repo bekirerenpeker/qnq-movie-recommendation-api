@@ -76,10 +76,10 @@ public class DbReviewService : IReviewService
     
     public async Task DeleteReviewByIdAsync(Guid id)
     {
-        var review = await _dbContext.Movies.FindAsync(id);
+        var review = await _dbContext.Reviews.FindAsync(id);
         if (review != null)
         {
-            _dbContext.Movies.Remove(review);
+            _dbContext.Reviews.Remove(review);
             await _dbContext.SaveChangesAsync();
         }
     }
