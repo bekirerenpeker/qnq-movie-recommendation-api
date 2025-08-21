@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieRecommendation.Dtos.Review;
 using MovieRecommendation.Services.Auth;
+using MovieRecommendation.Services.Movie;
 using MovieRecommendation.Services.Review;
 
 namespace MovieRecommendation.Controllers.Review;
@@ -13,11 +14,13 @@ public class ReviewController : ControllerBase
 {
     private readonly IReviewService _reviewService;
     private readonly IUserService _userService;
+    private readonly IMovieService _movieService;
 
-    public ReviewController(IReviewService reviewService , IUserService userService)
+    public ReviewController(IReviewService reviewService , IUserService userService,  IMovieService movieService)
     {
         _reviewService = reviewService;
         _userService = userService;
+        _movieService = movieService;
     }
 
     private Guid? GetCurrentUserId()
@@ -85,6 +88,21 @@ public class ReviewController : ControllerBase
         if (GetCurrentUserId() != reviewDto.UserId && !(await IsAdmin())) return Unauthorized();
 
         await _reviewService.DeleteReviewByIdAsync(id);
+        return NoContent();
+    }
+
+    [Authorize]
+    [HttpPut("udpate-ratings")]
+    public async Task<IActionResult> UpdateAllMovieRatings()
+    {
+        if(!(await IsAdmin())) return Unauthorized();
+
+        var movies = await _movieService.GetAllMoviesAsync();
+        foreach (var movie in movies)
+        {
+            await _reviewService.UpdateMovieRatingAsync(movie.Id);
+        }
+        
         return NoContent();
     }
 }

@@ -12,4 +12,5 @@ public interface IReviewService
     Task DeleteReviewByIdAsync(Guid id);
     
     Task<ReviewDto?> CreateReviewAsync(Guid userId, CreateReviewDto createReviewDto);
+    Task UpdateMovieRatingAsync(Guid movieId);
 }

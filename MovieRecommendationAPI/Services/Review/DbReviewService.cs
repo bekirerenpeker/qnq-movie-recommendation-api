@@ -2,7 +2,9 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MovieRecommendation.Data;
 using MovieRecommendation.Data.Review;
+using MovieRecommendation.Dtos.Movie;
 using MovieRecommendation.Dtos.Review;
+using MovieRecommendation.Services.Movie;
 
 namespace MovieRecommendation.Services.Review;
 
@@ -71,9 +73,10 @@ public class DbReviewService : IReviewService
         }
 
         await _dbContext.SaveChangesAsync();
+        await UpdateMovieRatingAsync(review.MovieId);
         return _mapper.Map<ReviewDto>(review);
     }
-    
+
     public async Task DeleteReviewByIdAsync(Guid id)
     {
         var review = await _dbContext.Reviews.FindAsync(id);
@@ -81,6 +84,18 @@ public class DbReviewService : IReviewService
         {
             _dbContext.Reviews.Remove(review);
             await _dbContext.SaveChangesAsync();
+            await UpdateMovieRatingAsync(review.MovieId);
         }
+    }
+
+    public async Task UpdateMovieRatingAsync(Guid movieId)
+    {
+        var movieReviews = await GetMovieReviewsAsync(movieId);
+        var ratingSum = movieReviews.Sum(r => r.Rating);
+
+        var movie = await _dbContext.Movies.FindAsync(movieId);
+        if (movie != null) movie.AvarageRating = (float)ratingSum / movieReviews.Count;
+
+        await _dbContext.SaveChangesAsync();
     }
 }
