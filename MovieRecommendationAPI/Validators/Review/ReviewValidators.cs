@@ -9,6 +9,6 @@ public class CreateReviewValidator : AbstractValidator<CreateReviewDto>
     {
         RuleFor(x => x.Comment).NotEmpty().WithMessage("comment cannot be empty");
         RuleFor(x => x.MovieId).NotEmpty().WithMessage("you need to specify a movie");
-        RuleFor(x => x.UserId).NotEmpty().WithMessage("you need to specify a user");
+        // RuleFor(x => x.UserId).NotEmpty().WithMessage("you need to specify a user");
     }
 }
