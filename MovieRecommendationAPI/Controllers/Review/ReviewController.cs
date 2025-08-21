@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieRecommendation.Dtos.Review;
+using MovieRecommendation.Services.Auth;
 using MovieRecommendation.Services.Review;
 
 namespace MovieRecommendation.Controllers.Review;
@@ -11,10 +12,12 @@ namespace MovieRecommendation.Controllers.Review;
 public class ReviewController : ControllerBase
 {
     private readonly IReviewService _reviewService;
+    private readonly IUserService _userService;
 
-    public ReviewController(IReviewService reviewService)
+    public ReviewController(IReviewService reviewService , IUserService userService)
     {
         _reviewService = reviewService;
+        _userService = userService;
     }
 
     private Guid? GetCurrentUserId()
@@ -22,6 +25,14 @@ public class ReviewController : ControllerBase
         var userIdString = base.User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userIdString == null) return null;
         return Guid.Parse(userIdString);
+    }
+
+    private async Task<bool> IsAdmin()
+    {
+        var userId = GetCurrentUserId();
+        if (userId == null) return false;
+        var user = await _userService.GetUserByIdAsync((Guid)userId);
+        return user != null && user.IsAdmin;
     }
 
     [HttpGet("{id}")]
@@ -67,11 +78,11 @@ public class ReviewController : ControllerBase
     
     [Authorize]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> CreateReviewAsync(Guid id)
+    public async Task<IActionResult> DeleteReviewAsync(Guid id)
     {
         var reviewDto = await _reviewService.GetReviewByIdAsync(id);
         if (reviewDto == null) return NotFound();
-        if (GetCurrentUserId() != reviewDto.UserId) return Unauthorized();
+        if (GetCurrentUserId() != reviewDto.UserId && !(await IsAdmin())) return Unauthorized();
 
         await _reviewService.DeleteReviewByIdAsync(id);
         return NoContent();
