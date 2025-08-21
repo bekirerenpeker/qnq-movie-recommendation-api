@@ -1,9 +1,11 @@
+using FluentValidation.TestHelper;
 using MovieRecommendation.Dtos.Auth;
 using MovieRecommendation.Dtos.Movie;
 using MovieRecommendation.Dtos.Review;
 using MovieRecommendation.Services.Auth;
 using MovieRecommendation.Services.Movie;
 using MovieRecommendation.Services.Review;
+using MovieRecommendation.Validators.Review;
 
 namespace MovieRecommendation.Tests.Review;
 
@@ -62,5 +64,27 @@ public class ReviewServiceTests
         await reviewService.DeleteReviewByIdAsync(createdReview.Id);
         var afterDelete = await  reviewService.GetReviewByIdAsync(createdReview.Id);
         Assert.Null(afterDelete);
+    }
+
+    [Fact]
+    public async Task CanValidateInputTest()
+    {
+        var validator = new CreateReviewValidator();
+        
+        var validCreateDto = new CreateReviewDto
+        {
+            Rating = 5,
+            MovieId = Guid.NewGuid(),
+        };
+        var result = await validator.TestValidateAsync(validCreateDto);
+        Assert.True(result.IsValid);
+
+        var invalidCreateDto = new CreateReviewDto
+        {
+            Rating = 14,
+        };
+        result = await validator.TestValidateAsync(invalidCreateDto);
+        Assert.False(result.IsValid);
+        Assert.Equal(2, result.Errors.Count);
     }
 }
