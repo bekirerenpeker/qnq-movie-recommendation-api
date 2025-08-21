@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MovieRecommendation.Data;
 using MovieRecommendation.Dtos.Auth;
 using MovieRecommendation.Dtos.Movie;
+using MovieRecommendation.Dtos.Review;
 
 namespace MovieRecommendation.Tests;
 
@@ -26,6 +27,12 @@ public static class TestUtils
     public static IMapper GetMovieMapper()
     {
         var config = new MapperConfiguration(cfg => { cfg.AddProfile<MovieMappingProfile>(); });
+        return config.CreateMapper();
+    }
+
+    public static IMapper GetReviewMapper()
+    {
+        var config = new MapperConfiguration(cfg => { cfg.AddProfile<ReviewMappingProfile>(); });
         return config.CreateMapper();
     }
 }
