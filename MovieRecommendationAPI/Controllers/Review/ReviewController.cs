@@ -2,7 +2,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieRecommendation.Dtos.Review;
-using MovieRecommendation.Services.Auth;
 using MovieRecommendation.Services.Review;
 
 namespace MovieRecommendation.Controllers.Review;
@@ -12,7 +11,6 @@ namespace MovieRecommendation.Controllers.Review;
 public class ReviewController : ControllerBase
 {
     private readonly IReviewService _reviewService;
-    private readonly IUserService _userService;
 
     public ReviewController(IReviewService reviewService)
     {
