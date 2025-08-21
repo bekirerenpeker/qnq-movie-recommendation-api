@@ -6,7 +6,7 @@ using MovieRecommendation.Dtos.Review;
 
 namespace MovieRecommendation.Services.Review;
 
-public class DbReviewService
+public class DbReviewService : IReviewService
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;

@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieRecommendation.Services.Auth;
 using MovieRecommendation.Services.Movie;
+using MovieRecommendation.Services.Review;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUserService, DbUserService>();
 builder.Services.AddScoped<IMovieService, DbMovieService>();
 builder.Services.AddScoped<ICategoryService, DbCategoryService>();
+builder.Services.AddScoped<IReviewService, DbReviewService>();
 
 // Add FluentValidation
 builder.Services.AddFluentValidationAutoValidation();
