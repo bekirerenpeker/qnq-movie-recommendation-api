@@ -1,5 +1,8 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieRecommendation.Dtos.Review;
+using MovieRecommendation.Services.Auth;
 using MovieRecommendation.Services.Review;
 
 namespace MovieRecommendation.Controllers.Review;
@@ -8,11 +11,19 @@ namespace MovieRecommendation.Controllers.Review;
 [Route("api/review")]
 public class ReviewController : ControllerBase
 {
-    private readonly  IReviewService _reviewService;
+    private readonly IReviewService _reviewService;
+    private readonly IUserService _userService;
 
     public ReviewController(IReviewService reviewService)
     {
         _reviewService = reviewService;
+    }
+
+    private Guid? GetCurrentUserId()
+    {
+        var userIdString = base.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userIdString == null) return null;
+        return Guid.Parse(userIdString);
     }
 
     [HttpGet("{id}")]
@@ -45,11 +56,13 @@ public class ReviewController : ControllerBase
         return Ok(reviewDto);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateReviewAsync(CreateReviewDto createReviewDto)
     {
+        if (GetCurrentUserId() != createReviewDto.UserId) return Unauthorized();
         var reviewDto = await _reviewService.CreateReviewAsync(createReviewDto);
-        if(reviewDto == null) return NotFound();
+        if (reviewDto == null) return NotFound();
         return Ok(reviewDto);
     }
 }
