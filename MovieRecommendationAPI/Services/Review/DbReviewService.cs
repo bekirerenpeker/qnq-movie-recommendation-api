@@ -97,7 +97,7 @@ public class DbReviewService : IReviewService
         var ratingSum = movieReviews.Sum(r => r.Rating);
 
         var movie = await _dbContext.Movies.FindAsync(movieId);
-        if (movie != null) movie.AvarageRating = (float)ratingSum / movieReviews.Count;
+        if (movie != null) movie.AverageRating = (float)ratingSum / movieReviews.Count;
 
         await _dbContext.SaveChangesAsync();
     }

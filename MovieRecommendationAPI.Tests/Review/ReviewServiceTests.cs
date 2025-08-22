@@ -123,14 +123,8 @@ public class ReviewServiceTests
         });
         Assert.NotNull(user2Movie2Review);
 
-        _testOutputHelper.WriteLine(user1Movie1Review.Rating.ToString());
-        _testOutputHelper.WriteLine(user1Movie2Review.Rating.ToString());
-        _testOutputHelper.WriteLine(user2Movie1Review.Rating.ToString());
-        _testOutputHelper.WriteLine(user2Movie2Review.Rating.ToString());
-        _testOutputHelper.WriteLine(movie1.AverageRating.ToString());
-        _testOutputHelper.WriteLine(movie2.AverageRating.ToString());
-        _testOutputHelper.WriteLine(movie1.Id.ToString());
-        _testOutputHelper.WriteLine(movie2.Id.ToString());
+        movie1 = await movieService.GetMovieByIdAsync(movie1.Id);
+        movie2 = await movieService.GetMovieByIdAsync(movie2.Id);
 
         Assert.Equal((user1Movie1Review.Rating + user2Movie1Review.Rating) / 2.0f, movie1.AverageRating);
         Assert.Equal((user1Movie2Review.Rating + user2Movie2Review.Rating) / 2.0f, movie2.AverageRating);
