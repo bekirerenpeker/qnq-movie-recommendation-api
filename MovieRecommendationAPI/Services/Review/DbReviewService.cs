@@ -62,6 +62,8 @@ public class DbReviewService : IReviewService
                 Comment = createReviewDto.Comment,
                 UserId = userId,
                 MovieId = createReviewDto.MovieId,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
             };
 
             await _dbContext.Reviews.AddAsync(review);
@@ -70,6 +72,7 @@ public class DbReviewService : IReviewService
         {
             review.Rating = createReviewDto.Rating;
             review.Comment = createReviewDto.Comment;
+            review.UpdatedAt = DateTime.UtcNow;
         }
 
         await _dbContext.SaveChangesAsync();
