@@ -106,7 +106,7 @@ public class DbMovieService : IMovieService
         return _mapper.Map<List<MovieDto>>(movies);
     }
 
-    public async Task<MovieDetailsDto?> GetMovieDetailsByIdAsync(FetchMovieDetailsDto fetchDto)
+    public async Task<MovieDetailsDto?> GetMovieDetailsAsync(FetchMovieDetailsDto fetchDto)
     {
         var movie =  await GetMovieDataByIdAsync(fetchDto.Id);
         if(movie == null) return null;
