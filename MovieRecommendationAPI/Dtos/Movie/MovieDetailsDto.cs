@@ -6,6 +6,14 @@ public enum ReviewOrderType
     CreatedAt,
 }
 
+public class FetchMovieDetailsDto
+{
+    public Guid Id { get; set; } = Guid.Empty;
+
+    public ReviewOrderType OrderType { get; set; } = ReviewOrderType.ByRating;
+    public Paginate? Paginate { get; set; } = null;
+};
+
 public class MovieDetailsDto
 {
     public Guid Id { get; set; } = Guid.Empty;
@@ -16,6 +24,7 @@ public class MovieDetailsDto
     public int? ReleaseYear { get; set; } = null;
 
     public List<Guid> CategoryIds { get; set; } = [];
-    
+
+    public Paginate? Paginate { get; set; } = null;
     public List<Guid> ReviewIds { get; set; } = [];
 }
