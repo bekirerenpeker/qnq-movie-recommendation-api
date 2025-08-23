@@ -61,8 +61,8 @@ public class MovieController : ControllerBase
         });
     }
 
-    [HttpGet("details/{id}")]
-    public async Task<IActionResult> GetMovieDetailsById(Guid id, [FromQuery] FetchMovieDetailsDto fetchDto)
+    [HttpGet("details")]
+    public async Task<IActionResult> GetMovieDetailsById([FromQuery] FetchMovieDetailsDto fetchDto)
     {
         var details = await _movieService.GetMovieDetailsAsync(fetchDto);
         if(details == null) return NotFound();
