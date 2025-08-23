@@ -127,8 +127,8 @@ public class DbMovieService : IMovieService
             case MovieOrderType.ByRating:
                 movies.Sort((a, b) =>
                     direction == OrderDirection.Ascending
-                        ? a.AvarageRating.CompareTo(b.AvarageRating)
-                        : b.AvarageRating.CompareTo(a.AvarageRating)
+                        ? a.AverageRating.CompareTo(b.AverageRating)
+                        : b.AverageRating.CompareTo(a.AverageRating)
                 );
                 break;
             case MovieOrderType.ByReleaseYear:
