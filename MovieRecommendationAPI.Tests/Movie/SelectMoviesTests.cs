@@ -1,5 +1,6 @@
 using FluentValidation.TestHelper;
 using MovieRecommendation.Dtos.Movie;
+using MovieRecommendation.Services;
 using MovieRecommendation.Services.Movie;
 using MovieRecommendation.Validators.Movie;
 

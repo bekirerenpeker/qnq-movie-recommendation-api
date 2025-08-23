@@ -100,49 +100,26 @@ public class DbMovieService : IMovieService
             .ToList();
 
         // sort and paginate
-        SortSelectedMovies(movies, selectMoviesDto.OrderType, selectMoviesDto.OrderDirection);
-        if (selectMoviesDto.Paginate != null) movies = Paginate(movies, selectMoviesDto.Paginate);
+        SortAndPaginateUtils.SortMoviesBy(movies, selectMoviesDto.OrderType, selectMoviesDto.OrderDirection);
+        if (selectMoviesDto.Paginate != null) movies = SortAndPaginateUtils.Paginate(movies, selectMoviesDto.Paginate);
 
         return _mapper.Map<List<MovieDto>>(movies);
     }
 
-    private void SortSelectedMovies(List<MovieData> movies, MovieOrderType orderType, OrderDirection direction)
+    public async Task<MovieDetailsDto?> GetMovieDetailsByIdAsync(FetchMovieDetailsDto fetchDto)
     {
-        switch (orderType)
-        {
-            case MovieOrderType.ByTitle:
-                movies.Sort((a, b) =>
-                    direction == OrderDirection.Ascending
-                        ? String.Compare(a.Title, b.Title, StringComparison.Ordinal)
-                        : String.Compare(b.Title, a.Title, StringComparison.Ordinal)
-                );
-                break;
-            case MovieOrderType.ByDuration:
-                movies.Sort((a, b) =>
-                    direction == OrderDirection.Ascending
-                        ? a.DurationMins.CompareTo(b.DurationMins)
-                        : b.DurationMins.CompareTo(a.DurationMins)
-                );
-                break;
-            case MovieOrderType.ByRating:
-                movies.Sort((a, b) =>
-                    direction == OrderDirection.Ascending
-                        ? a.AverageRating.CompareTo(b.AverageRating)
-                        : b.AverageRating.CompareTo(a.AverageRating)
-                );
-                break;
-            case MovieOrderType.ByReleaseYear:
-                movies.Sort((a, b) =>
-                    direction == OrderDirection.Ascending
-                        ? (a.ReleaseYear ?? 0).CompareTo(b.ReleaseYear ?? 0)
-                        : (b.ReleaseYear ?? 0).CompareTo(a.ReleaseYear ?? 0)
-                );
-                break;
-        }
+        var movie =  await GetMovieDataByIdAsync(fetchDto.Id);
+        if(movie == null) return null;
+        
+        var reviews = await  _dbContext.Reviews.Where(r => r.MovieId == movie.Id).ToListAsync();
+        SortAndPaginateUtils.SortReviewsBy(reviews,  fetchDto.OrderType, fetchDto.OrderDirection);
+        if (fetchDto.Paginate != null) reviews = SortAndPaginateUtils.Paginate(reviews, fetchDto.Paginate);
+        
+        var detailsDto  = _mapper.Map<MovieDetailsDto>(movie);
+        detailsDto.Paginate = fetchDto.Paginate;
+        detailsDto.ReviewIds = reviews.Select(r => r.Id).ToList();
+        
+        return detailsDto;
     }
 
-    private List<MovieData> Paginate(List<MovieData> movies, Paginate paginate)
-    {
-        return movies.Skip(paginate.Count * paginate.Page).Take(paginate.Count).ToList();
-    }
 }

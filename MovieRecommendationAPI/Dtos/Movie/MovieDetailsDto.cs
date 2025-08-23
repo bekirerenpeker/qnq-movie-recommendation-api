@@ -1,3 +1,5 @@
+using MovieRecommendation.Services;
+
 namespace MovieRecommendation.Dtos.Movie;
 
 public enum ReviewOrderType
@@ -10,6 +12,7 @@ public class FetchMovieDetailsDto
 {
     public Guid Id { get; set; } = Guid.Empty;
 
+    public OrderDirection OrderDirection { get; set; } = OrderDirection.Ascending;
     public ReviewOrderType OrderType { get; set; } = ReviewOrderType.ByRating;
     public Paginate? Paginate { get; set; } = null;
 };
