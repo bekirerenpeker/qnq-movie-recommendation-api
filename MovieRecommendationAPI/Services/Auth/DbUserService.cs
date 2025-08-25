@@ -131,6 +131,26 @@ public class DbUserService : IUserService
         };
     }
 
+    public async Task SetMovieWatchedStateAsync(Guid userId, Guid movieId, bool isWatched)
+    {
+        var user = await GetUserDataByIdAsync(userId);
+        if (user == null) return;
+
+        var index = user.WatchedMovies.FindIndex(movie => movie.Id == movieId);
+        var inWatchlist = index != -1;
+
+        if (isWatched && !inWatchlist)
+        {
+            user.WatchedMovies.RemoveAt(index);
+        }
+        else if (!isWatched && inWatchlist)
+        {
+            var movie = await _dbContext.Movies.FindAsync(movieId);
+            if (movie == null) return;
+            user.WatchedMovies.Add(movie);
+        }
+    }
+
     public async Task<int> AdminCount()
     {
         var users = await _dbContext.Users.ToListAsync();
