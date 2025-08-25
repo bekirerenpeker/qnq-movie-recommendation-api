@@ -1,3 +1,5 @@
+using MovieRecommendation.Data.Movie;
+
 namespace MovieRecommendation.Data.Auth;
 
 public class UserData
@@ -11,4 +13,6 @@ public class UserData
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public bool IsAdmin { get; set; } = false;
+
+    public List<MovieData> WatchedMovies { get; set; } = [];
 };
