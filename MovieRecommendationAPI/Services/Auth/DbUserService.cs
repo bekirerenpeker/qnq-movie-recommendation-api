@@ -141,14 +141,16 @@ public class DbUserService : IUserService
 
         if (isWatched && !inWatchlist)
         {
-            user.WatchedMovies.RemoveAt(index);
-        }
-        else if (!isWatched && inWatchlist)
-        {
             var movie = await _dbContext.Movies.FindAsync(movieId);
             if (movie == null) return;
             user.WatchedMovies.Add(movie);
         }
+        else if (!isWatched && inWatchlist)
+        {
+            user.WatchedMovies.RemoveAt(index);
+        }
+        
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task<int> AdminCount()

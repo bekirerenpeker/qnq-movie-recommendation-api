@@ -100,22 +100,22 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("watchlist/{id}")]
-    public async Task<IActionResult> AddMovieToWatchlist(Guid movieId)
+    public async Task<IActionResult> AddMovieToWatchlist(Guid id)
     {
-        var id = GetCurrentUserId();
-        if(id == null) return Unauthorized();
+        var userId = GetCurrentUserId();
+        if(userId == null) return Unauthorized();
 
-        await _userService.SetMovieWatchedStateAsync((Guid)id, movieId, true);
+        await _userService.SetMovieWatchedStateAsync((Guid)userId, id, true);
         return NoContent();
     }
 
     [HttpDelete("watchlist/{id}")]
-    public async Task<IActionResult> RemoveMovieFromWatchlist(Guid movieId)
+    public async Task<IActionResult> RemoveMovieFromWatchlist(Guid id)
     {
-        var id = GetCurrentUserId();
-        if(id == null) return Unauthorized();
+        var userId = GetCurrentUserId();
+        if(userId == null) return Unauthorized();
 
-        await _userService.SetMovieWatchedStateAsync((Guid)id, movieId, false);
+        await _userService.SetMovieWatchedStateAsync((Guid)userId, id, false);
         return NoContent();
     }
 }
