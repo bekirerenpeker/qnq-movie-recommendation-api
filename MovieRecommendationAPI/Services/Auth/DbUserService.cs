@@ -18,6 +18,14 @@ public class DbUserService : IUserService
         _mapper = mapper;
     }
 
+    private async Task<UserData?> GetUserDataByIdAsync(Guid id)
+    {
+        var user = await _dbContext.Users
+            .Include(data => data.WatchedMovies)
+            .FirstOrDefaultAsync(m => m.Id == id);
+        return user;
+    }
+
     public async Task<UserDto?> LoginAsync(LoginDto loginDto)
     {
         var users = await _dbContext.Users.ToListAsync();
@@ -62,13 +70,13 @@ public class DbUserService : IUserService
 
     public async Task<List<UserDto>> GetAllUsersAsync()
     {
-        var users = await _dbContext.Users.ToListAsync();
+        var users = await _dbContext.Users.Include(data => data.WatchedMovies).ToListAsync();
         return _mapper.Map<List<UserDto>>(users);
     }
 
     public async Task<UserDto?> GetUserByIdAsync(Guid id)
     {
-        var user = await _dbContext.Users.FindAsync(id);
+        var user = await GetUserDataByIdAsync(id);
         return _mapper.Map<UserDto>(user);
     }
 
@@ -110,6 +118,13 @@ public class DbUserService : IUserService
             _dbContext.Users.Remove(user);
             await _dbContext.SaveChangesAsync();
         }
+    }
+
+    public async Task<List<Guid>> GetWatchedMovieIdsAsync(Guid id)
+    {
+        var user = await GetUserDataByIdAsync(id);
+        if (user == null) return [];
+        return user.WatchedMovies.Select(movie => movie.Id).ToList();
     }
 
     public async Task<int> AdminCount()
