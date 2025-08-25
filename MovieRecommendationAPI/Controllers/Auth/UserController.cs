@@ -98,4 +98,24 @@ public class UserController : ControllerBase
         
         return Ok(watchlistDto);
     }
+
+    [HttpPut("watchlist/{id}")]
+    public async Task<IActionResult> AddMovieToWatchlist(Guid movieId)
+    {
+        var id = GetCurrentUserId();
+        if(id == null) return Unauthorized();
+
+        await _userService.SetMovieWatchedStateAsync((Guid)id, movieId, true);
+        return NoContent();
+    }
+
+    [HttpDelete("watchlist/{id}")]
+    public async Task<IActionResult> RemoveMovieFromWatchlist(Guid movieId)
+    {
+        var id = GetCurrentUserId();
+        if(id == null) return Unauthorized();
+
+        await _userService.SetMovieWatchedStateAsync((Guid)id, movieId, false);
+        return NoContent();
+    }
 }
