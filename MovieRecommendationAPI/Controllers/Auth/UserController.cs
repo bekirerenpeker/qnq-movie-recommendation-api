@@ -86,4 +86,13 @@ public class UserController : ControllerBase
         await _userService.DeleteUserByIdAsync(id);
         return NoContent();
     }
+
+    [HttpGet("watchlist")]
+    public async Task<IActionResult> GetWatchedMovieIds()
+    {
+        var id = GetCurrentUserId();
+        if(id == null) return Unauthorized();
+        var watchlist = await _userService.GetWatchedMovieIdsAsync((Guid)id);
+        return Ok(watchlist);
+    }
 }
