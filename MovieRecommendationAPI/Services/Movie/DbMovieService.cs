@@ -19,7 +19,10 @@ public class DbMovieService : IMovieService
 
     private async Task<MovieData?> GetMovieDataByIdAsync(Guid id)
     {
-        var movie = await _dbContext.Movies.Include(data => data.Categories).FirstOrDefaultAsync(m => m.Id == id);
+        var movie = await _dbContext.Movies
+            .Include(data => data.Categories)
+            .Include(data => data.WatchedUsers)
+            .FirstOrDefaultAsync(m => m.Id == id);
         return movie;
     }
 
@@ -121,5 +124,4 @@ public class DbMovieService : IMovieService
         
         return detailsDto;
     }
-
 }

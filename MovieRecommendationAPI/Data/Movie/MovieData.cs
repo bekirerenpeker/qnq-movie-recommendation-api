@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using MovieRecommendation.Data.Auth;
 
 namespace MovieRecommendation.Data.Movie;
 
@@ -14,4 +15,5 @@ public class MovieData
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow; 
     
     public List<CategoryData> Categories { get; set; } = [];
+    public List<UserData> WatchedUsers { get; set; } = [];
 }

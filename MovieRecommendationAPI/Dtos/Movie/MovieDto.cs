@@ -10,6 +10,7 @@ public class MovieDto
     public int? ReleaseYear { get; set; } = null;
 
     public List<Guid> CategoryIds { get; set; } = [];
+    public List<Guid> WatchedUserIds { get; set; } = [];
 }
 
 public class CreateMovieDto

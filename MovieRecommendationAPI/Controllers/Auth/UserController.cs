@@ -86,4 +86,36 @@ public class UserController : ControllerBase
         await _userService.DeleteUserByIdAsync(id);
         return NoContent();
     }
+
+    [HttpGet("watchlist")]
+    public async Task<IActionResult> GetWatchedMovieIds()
+    {
+        var id = GetCurrentUserId();
+        if(id == null) return Unauthorized();
+        
+        var watchlistDto = await _userService.GetWatchedMovieIdsAsync((Guid)id);
+        if(watchlistDto == null)  return NotFound();
+        
+        return Ok(watchlistDto);
+    }
+
+    [HttpPut("watchlist/{id}")]
+    public async Task<IActionResult> AddMovieToWatchlist(Guid id)
+    {
+        var userId = GetCurrentUserId();
+        if(userId == null) return Unauthorized();
+
+        await _userService.SetMovieWatchedStateAsync((Guid)userId, id, true);
+        return NoContent();
+    }
+
+    [HttpDelete("watchlist/{id}")]
+    public async Task<IActionResult> RemoveMovieFromWatchlist(Guid id)
+    {
+        var userId = GetCurrentUserId();
+        if(userId == null) return Unauthorized();
+
+        await _userService.SetMovieWatchedStateAsync((Guid)userId, id, false);
+        return NoContent();
+    }
 }

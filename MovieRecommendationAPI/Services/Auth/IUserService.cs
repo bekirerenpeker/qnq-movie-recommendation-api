@@ -14,5 +14,8 @@ public interface IUserService
     Task<UserDto?> UpdateUserAsync(Guid id, UpdateUserDto updateUserDto);
     Task DeleteUserByIdAsync(Guid id);
 
+    Task<WatchlistDto?> GetWatchedMovieIdsAsync(Guid id);
+    Task SetMovieWatchedStateAsync(Guid userId, Guid movieId, bool isWatched);
+    
     Task<int> AdminCount();
 };
