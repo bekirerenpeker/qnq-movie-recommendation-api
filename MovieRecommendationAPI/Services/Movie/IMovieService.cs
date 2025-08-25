@@ -10,4 +10,5 @@ public interface IMovieService
     Task<MovieDto?> UpdateMovieAsync(Guid id, UpdateMovieDto updateMovieDto);
     Task DeleteMovieByIdAsync(Guid id);
     Task<List<MovieDto>> SelectMoviesByCategoryAsync(SelectMoviesDto selectMoviesDto);
+    Task<MovieDetailsDto?> GetMovieDetailsAsync(FetchMovieDetailsDto fetchDto);
 }

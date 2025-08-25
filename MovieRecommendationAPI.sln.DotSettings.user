@@ -13,6 +13,7 @@
       &lt;TestId&gt;xUnit::C0B883A2-0179-4CDF-8E84-454FAB0C5A4C::net9.0::MovieRecommendation.Tests.Review.ReviewServiceTests.CanCreateUpdateDeleteReviewTest&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;xUnit::C0B883A2-0179-4CDF-8E84-454FAB0C5A4C::net9.0::MovieRecommendation.Tests.Review.ReviewServiceTests.CanValidateInputTest&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;xUnit::C0B883A2-0179-4CDF-8E84-454FAB0C5A4C::net9.0::MovieRecommendation.Tests.Review.ReviewServiceTests.CanRateMoviesTest&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::C0B883A2-0179-4CDF-8E84-454FAB0C5A4C::net9.0::MovieRecommendation.Tests.Movie.MovieDetailsTests.CanGetMovieDetailsTest&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
     &lt;ProjectFolder&gt;C0B883A2-0179-4CDF-8E84-454FAB0C5A4C/d:Auth&lt;/ProjectFolder&gt;&#xD;
   &lt;/Or&gt;&#xD;

@@ -1,10 +1,6 @@
-namespace MovieRecommendation.Dtos.Movie;
+using MovieRecommendation.Services;
 
-public enum OrderDirection
-{
-    Ascending,
-    Descending
-}
+namespace MovieRecommendation.Dtos.Movie;
 
 public enum MovieOrderType
 {
@@ -12,12 +8,6 @@ public enum MovieOrderType
     ByRating,
     ByReleaseYear,
     ByDuration,
-}
-
-public class Paginate
-{
-    public int Count { get; set; } = 10;
-    public int Page { get; set; } = 0;
 }
 
 public class SelectMoviesDto

@@ -61,6 +61,14 @@ public class MovieController : ControllerBase
         });
     }
 
+    [HttpGet("details")]
+    public async Task<IActionResult> GetMovieDetailsById([FromQuery] FetchMovieDetailsDto fetchDto)
+    {
+        var details = await _movieService.GetMovieDetailsAsync(fetchDto);
+        if(details == null) return NotFound();
+        return Ok(details);
+    }
+
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateMovie(CreateMovieDto createMovieDto)
