@@ -120,11 +120,15 @@ public class DbUserService : IUserService
         }
     }
 
-    public async Task<List<Guid>> GetWatchedMovieIdsAsync(Guid id)
+    public async Task<WatchlistDto?> GetWatchedMovieIdsAsync(Guid id)
     {
         var user = await GetUserDataByIdAsync(id);
-        if (user == null) return [];
-        return user.WatchedMovies.Select(movie => movie.Id).ToList();
+        if (user == null) return null;
+        return new WatchlistDto
+        {
+            UserId = user.Id,
+            WatchedMovieIds = user.WatchedMovies.Select(movie => movie.Id).ToList(),
+        };
     }
 
     public async Task<int> AdminCount()

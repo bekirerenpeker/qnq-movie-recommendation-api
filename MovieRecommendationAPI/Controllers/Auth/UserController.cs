@@ -92,7 +92,10 @@ public class UserController : ControllerBase
     {
         var id = GetCurrentUserId();
         if(id == null) return Unauthorized();
-        var watchlist = await _userService.GetWatchedMovieIdsAsync((Guid)id);
-        return Ok(watchlist);
+        
+        var watchlistDto = await _userService.GetWatchedMovieIdsAsync((Guid)id);
+        if(watchlistDto == null)  return NotFound();
+        
+        return Ok(watchlistDto);
     }
 }

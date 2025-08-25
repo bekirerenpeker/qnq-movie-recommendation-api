@@ -29,3 +29,9 @@ public class UserDto
 
     public List<Guid> WatchedMovieIds { get; set; } = [];
 }
+
+public class WatchlistDto
+{
+    public Guid UserId { get; set; } = Guid.Empty;
+    public List<Guid> WatchedMovieIds { get; set; } = [];
+}
