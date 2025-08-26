@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MovieRecommendation.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250822162549_added created and updated timestamps to reviews")]
-    partial class addedcreatedandupdatedtimestampstoreviews
+    [Migration("20250826125614_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,21 @@ namespace MovieRecommendation.Migrations
                     b.HasIndex("MoviesId");
 
                     b.ToTable("CategoryDataMovieData");
+                });
+
+            modelBuilder.Entity("MovieDataUserData", b =>
+                {
+                    b.Property<Guid>("WatchedMoviesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("WatchedUsersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("WatchedMoviesId", "WatchedUsersId");
+
+                    b.HasIndex("WatchedUsersId");
+
+                    b.ToTable("MovieDataUserData");
                 });
 
             modelBuilder.Entity("MovieRecommendation.Data.Auth.UserData", b =>
@@ -104,7 +119,7 @@ namespace MovieRecommendation.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<float>("AvarageRating")
+                    b.Property<float>("AverageRating")
                         .HasColumnType("real");
 
                     b.Property<DateTime>("CreatedAt")
@@ -172,6 +187,21 @@ namespace MovieRecommendation.Migrations
                     b.HasOne("MovieRecommendation.Data.Movie.MovieData", null)
                         .WithMany()
                         .HasForeignKey("MoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieDataUserData", b =>
+                {
+                    b.HasOne("MovieRecommendation.Data.Movie.MovieData", null)
+                        .WithMany()
+                        .HasForeignKey("WatchedMoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MovieRecommendation.Data.Auth.UserData", null)
+                        .WithMany()
+                        .HasForeignKey("WatchedUsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
