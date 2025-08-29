@@ -16,11 +16,6 @@ using MovieRecommendation.Services.Review;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(8080); // listen on 0.0.0.0:8080
-});
-
 // database
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase"))
