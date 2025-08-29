@@ -11,8 +11,7 @@ services:
     entrypoint:
     - "dotnet"
     - "/app/bin/Debug/net9.0/MovieRecommendationAPI.dll"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+    environment: {}
     image: "movierecommendationapi:dev"
     ports: []
     volumes:

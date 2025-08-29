@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1867e04-a402-42c7-b118-b831a9d149d1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

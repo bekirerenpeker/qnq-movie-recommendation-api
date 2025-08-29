@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieRecommendation.Services.Auth;
@@ -52,7 +54,7 @@ builder.Services.AddAuthentication(options =>
             ))
         };
     })
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme) 
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
     {
         options.ClientId = builder.Configuration["Google:ClientId"] ?? throw new InvalidOperationException();
@@ -106,7 +108,19 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    Console.WriteLine("Swagger UI available at: http://localhost:8080/swagger");
+    
+    app.Lifetime.ApplicationStarted.Register(() =>
+    {
+        var server = app.Services.GetRequiredService<IServer>();
+        var addressesFeature = server.Features.Get<IServerAddressesFeature>();
+
+        var firstAddress = addressesFeature?.Addresses.FirstOrDefault();
+        if (!string.IsNullOrEmpty(firstAddress))
+        {
+            var uri = new Uri(firstAddress);
+            Console.WriteLine($"Swagger URL: http://localhost:{uri.Port}/swagger");
+        }
+    });
 }
 
 app.UseAuthentication();
