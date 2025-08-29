@@ -106,7 +106,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    Console.WriteLine("Swagger UI available at: http://localhost:5033/swagger");
+    Console.WriteLine("Swagger UI available at: http://localhost:8080/swagger");
 }
 
 app.UseAuthentication();
