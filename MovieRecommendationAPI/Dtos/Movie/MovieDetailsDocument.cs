@@ -1,3 +1,5 @@
+using MovieRecommendation.Dtos.Auth;
+using MovieRecommendation.Dtos.Review;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -7,14 +9,19 @@ namespace MovieRecommendation.Dtos.Movie;
 public class MovieDetailsDocument : IDocument
 {
     private readonly MovieDetailsDto _movieDetailsDto;
-    private readonly List<CategoryDto> _categories;
+    private readonly List<CategoryDto?> _categories;
+    private readonly List<ReviewDto?> _reviews;
+    private readonly List<UserDto?> _reviewUsers;
 
     public MovieDetailsDocument(
-        MovieDetailsDto movieDetailsDto, List<CategoryDto> categories
+        MovieDetailsDto movieDetailsDto, List<CategoryDto?> categories, List<ReviewDto?> reviews,
+        List<UserDto?> reviewUsers
     )
     {
         _movieDetailsDto = movieDetailsDto;
         _categories = categories;
+        _reviews = reviews;
+        _reviewUsers = reviewUsers;
     }
 
     public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
@@ -35,20 +42,21 @@ public class MovieDetailsDocument : IDocument
             // Main content
             page.Content().PaddingVertical(10).Column(col =>
             {
-                col.Spacing(10);
-
                 // Movie details
+                col.Spacing(5);
                 col.Item().Text($"Description: {_movieDetailsDto.Description ?? "N/A"}");
                 col.Item().Text($"Average Rating: {_movieDetailsDto.AverageRating}");
                 col.Item().Text($"Duration: {_movieDetailsDto.DurationMins} mins");
                 col.Item().Text($"Release Year: {_movieDetailsDto.ReleaseYear?.ToString() ?? "N/A"}");
 
                 // Categories
+                col.Item().Height(20);
                 if (_categories.Count > 0)
                 {
                     col.Item().Text("Categories:").Bold();
                     foreach (var category in _categories)
                     {
+                        if (category == null) continue;
                         col.Item().Row(row =>
                         {
                             row.AutoItem().Text("• ");
@@ -58,6 +66,7 @@ public class MovieDetailsDocument : IDocument
                 }
 
                 // Reviews section
+                col.Item().Height(20);
                 if (_movieDetailsDto.ReviewIds.Count > 0)
                 {
                     col.Item().Text("Reviews:").Bold();
@@ -75,25 +84,32 @@ public class MovieDetailsDocument : IDocument
                         // Header row
                         table.Header(header =>
                         {
-                            header.Cell().Text("User").Bold();
-                            header.Cell().Text("Rating").Bold();
-                            header.Cell().Text("Comment").Bold();
+                            header.Cell().Element(CellStyle).Text("User").Bold();
+                            header.Cell().Element(CellStyle).Text("Rating").Bold();
+                            header.Cell().Element(CellStyle).Text("Comment").Bold();
                         });
 
                         // Data rows
-                        /*
-                        foreach (var r in _reviews)
+                        for (int i = 0; i < _reviews.Count; i++)
                         {
-                            var reviewDto = await _reviewService.GetReviewByIdAsync();
-                            table.Cell().Text(r.User);
-                            table.Cell().Text(r.Rating.ToString());
-                            table.Cell().Text(r.Comment ?? "");
+                            if (_reviews[i] == null || _reviewUsers[i] == null) continue;
+                            table.Cell().Element(CellStyle)
+                                .Text(
+                                    $"{_reviewUsers[i]?.Name}  {_reviewUsers[i]?.Surname} ({_reviewUsers[i]?.Email})");
+                            table.Cell().Element(CellStyle).Text(_reviews[i]?.Rating.ToString());
+                            table.Cell().Element(CellStyle).Text(_reviews[i]?.Comment);
                         }
-                        */
                     });
+
+                    static IContainer CellStyle(IContainer container) =>
+                        container
+                            .Border(1) // full border
+                            .BorderColor(Colors.Grey.Medium)
+                            .Padding(5);
                 }
 
                 // Pagination info
+                col.Item().Height(20);
                 if (_movieDetailsDto.Paginate != null)
                 {
                     col.Item().AlignRight().Text(

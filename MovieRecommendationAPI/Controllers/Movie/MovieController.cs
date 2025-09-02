@@ -1,7 +1,9 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieRecommendation.Dtos.Auth;
 using MovieRecommendation.Dtos.Movie;
+using MovieRecommendation.Dtos.Review;
 using MovieRecommendation.Services.Auth;
 using MovieRecommendation.Services.Movie;
 using MovieRecommendation.Services.Review;
@@ -82,16 +84,30 @@ public class MovieController : ControllerBase
         var details = await _movieService.GetMovieDetailsAsync(fetchDto);
         if (details == null) return NotFound();
 
-        var categories = new List<CategoryDto>();
+        var categories = new List<CategoryDto?>();
         foreach (var id in details.CategoryIds)
         {
-            var dto = await _categoryService.GetCategoryByIdAsync(id);
-            if(dto != null) categories.Add(dto);
+            var categoryDto = await _categoryService.GetCategoryByIdAsync(id);
+            categories.Add(categoryDto);
         }
-        
-        var document = new MovieDetailsDocument(details, categories);
+
+        var reviews = new List<ReviewDto?>();
+        var reviewUsers = new List<UserDto?>();
+        foreach (var id in details.ReviewIds)
+        {
+            var reviewDto = await _reviewService.GetReviewByIdAsync(id);
+            reviews.Add(reviewDto);
+
+            if (reviewDto != null)
+            {
+                var userDto = await _userService.GetUserByIdAsync(reviewDto.UserId);
+                reviewUsers.Add(userDto);
+            }
+        }
+
+        var document = new MovieDetailsDocument(details, categories, reviews, reviewUsers);
         var pdfBytes = document.GeneratePdf();
-        
+
         return File(pdfBytes, "application/pdf", "movie_details.pdf");
     }
 

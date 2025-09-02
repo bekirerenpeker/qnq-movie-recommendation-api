@@ -8,7 +8,7 @@ public static class SortAndPaginateUtils
 {
     public static List<T> Paginate<T>(List<T> movies, Paginate paginate)
     {
-        return movies.Skip(paginate.Count * paginate.Page).Take(paginate.Count).ToList();
+        return movies.Skip(paginate.Count * (paginate.Page - 1)).Take(paginate.Count).ToList();
     }
 
     public static void SortMoviesBy(List<MovieData> movies, MovieOrderType orderType, OrderDirection direction)
@@ -48,7 +48,6 @@ public static class SortAndPaginateUtils
 
     public static void SortReviewsBy(List<ReviewData> reviews, ReviewOrderType orderType, OrderDirection direction)
     {
-        
     }
 }
 
