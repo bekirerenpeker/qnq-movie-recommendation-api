@@ -13,8 +13,11 @@ using Microsoft.OpenApi.Models;
 using MovieRecommendation.Services.Auth;
 using MovieRecommendation.Services.Movie;
 using MovieRecommendation.Services.Review;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 // database
 builder.Services.AddDbContext<AppDbContext>(options =>

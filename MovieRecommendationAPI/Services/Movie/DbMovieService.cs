@@ -124,4 +124,9 @@ public class DbMovieService : IMovieService
         
         return detailsDto;
     }
+
+    public async Task GenerateMovieDetailsPdfAsync(FetchMovieDetailsDto fetchDto)
+    {
+        
+    }
 }
