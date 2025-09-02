@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1867e04-a402-42c7-b118-b831a9d149d1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI/MovieRecommendationAPI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI/MovieRecommendationAPI.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI/Controllers/Movie/MovieController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI/Controllers/Movie/MovieController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI/Dtos/Movie/MovieDetailsDocument.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI/Dtos/Movie/MovieDetailsDocument.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MovieRecommendationAPI/Services/Movie/DbMovieService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MovieRecommendationAPI/Services/Movie/DbMovieService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

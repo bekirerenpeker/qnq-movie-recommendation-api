@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using MovieRecommendation.Dtos.Movie;
 using MovieRecommendation.Services.Auth;
 using MovieRecommendation.Services.Movie;
+using MovieRecommendation.Services.Review;
+using QuestPDF.Fluent;
 
 namespace MovieRecommendation.Controllers.Movie;
 
@@ -13,11 +15,16 @@ public class MovieController : ControllerBase
 {
     private readonly IMovieService _movieService;
     private readonly IUserService _userService;
+    private readonly IReviewService _reviewService;
+    private readonly ICategoryService _categoryService;
 
-    public MovieController(IMovieService movieService, IUserService userService)
+    public MovieController(IMovieService movieService, IUserService userService, IReviewService reviewService,
+        ICategoryService categoryService)
     {
         _movieService = movieService;
         _userService = userService;
+        _reviewService = reviewService;
+        _categoryService = categoryService;
     }
 
     private Guid? GetCurrentUserId()
@@ -65,8 +72,27 @@ public class MovieController : ControllerBase
     public async Task<IActionResult> GetMovieDetailsById([FromQuery] FetchMovieDetailsDto fetchDto)
     {
         var details = await _movieService.GetMovieDetailsAsync(fetchDto);
-        if(details == null) return NotFound();
+        if (details == null) return NotFound();
         return Ok(details);
+    }
+
+    [HttpGet("details/pdf")]
+    public async Task<IActionResult> GetMovieDetailsPdfById([FromQuery] FetchMovieDetailsDto fetchDto)
+    {
+        var details = await _movieService.GetMovieDetailsAsync(fetchDto);
+        if (details == null) return NotFound();
+
+        var categories = new List<CategoryDto>();
+        foreach (var id in details.CategoryIds)
+        {
+            var dto = await _categoryService.GetCategoryByIdAsync(id);
+            if(dto != null) categories.Add(dto);
+        }
+        
+        var document = new MovieDetailsDocument(details, categories);
+        var pdfBytes = document.GeneratePdf();
+        
+        return File(pdfBytes, "application/pdf", "movie_details.pdf");
     }
 
     [Authorize]
